@@ -60,11 +60,10 @@ export async function POST(request: Request) {
     }
 
     const anthropicKey = process.env.ANTHROPIC_API_KEY;
-    const openAiKey = process.env.OPENAI_API_KEY;
 
-    if (!anthropicKey && !openAiKey) {
+    if (!anthropicKey) {
       return NextResponse.json(
-        { error: "No AI provider API key configured." },
+        { error: "ANTHROPIC_API_KEY is not configured." },
         { status: 500 }
       );
     }
@@ -78,90 +77,24 @@ export async function POST(request: Request) {
     const prompt = buildPrompt(body);
     let reply = "";
 
-    // Anthropic logic
-    if (anthropicKey) {
-      const anthropic = new Anthropic({ apiKey: anthropicKey });
-      try {
-        const response = await anthropic.messages.create({
-          model: process.env.CLAUDE_MODEL ?? "claude-haiku-4-5-20251001",
-          max_tokens: 250,
-          messages: [{ role: "user", content: prompt }],
-          temperature: 0.7,
-        });
-        reply = Array.isArray(response.content)
-          ? response.content
-              .map(block => ("text" in block && typeof block.text === "string" ? block.text : ""))
-              .filter(Boolean)
-              .join(" ")
-              .trim()
-          : "";
-      } catch (err) {
-        console.error(err);
-        if (!openAiKey) {
-          let errorMessage = "Internal server error. Please try again later.";
-          if (err instanceof Anthropic.APIError) {
-            errorMessage = err.message;
-          }
-          return NextResponse.json({ error: errorMessage }, { status: 500 });
-        }
-      }
-    }
-
-    // OpenAI logic
-    if (!reply && openAiKey) {
-      const endpoint = "https://api.openai.com/v1/chat/completions";
-      const payload = {
-        model: process.env.OPENAI_MODEL ?? "gpt-3.5-turbo",
-        messages: [{ role: "system", content: prompt }],
-        max_tokens: 250,
-        temperature: 0.7,
-        top_p: 1,
-        frequency_penalty: 0.3,
-        presence_penalty: 0,
-      };
-
-      const resp = await fetch(endpoint, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${openAiKey}`,
-        },
-        body: JSON.stringify(payload),
-      });
-
-      if (!resp.ok) {
-        const bodyText = await resp.text();
-        let message = "Unable to generate a reply. Please try again.";
-
-        try {
-          const parsed = JSON.parse(bodyText) as { error?: { message?: string } | string };
-          if (parsed?.error) {
-            message = typeof parsed.error === 'string' ? parsed.error : parsed.error?.message || 'API error';
-          }
-        } catch {
-          // ignore parse errors
-        }
-
-        return NextResponse.json({ error: message }, { status: resp.status });
-      }
-
-      const data = (await resp.json()) as {
-        choices?: Array<{ message?: { content?: string } }>;
-      };
-
-      const openAiReply = data?.choices?.[0]?.message?.content?.trim();
-      if (!openAiReply) {
-        return NextResponse.json(
-          { error: "No response received from the AI service." },
-          { status: 500 }
-        );
-      }
-      reply = openAiReply;
-    }
+    const anthropic = new Anthropic({ apiKey: anthropicKey });
+    const response = await anthropic.messages.create({
+      model: process.env.CLAUDE_MODEL ?? "claude-haiku-4-5-20251001",
+      max_tokens: 250,
+      messages: [{ role: "user", content: prompt }],
+      temperature: 0.7,
+    });
+    reply = Array.isArray(response.content)
+      ? response.content
+          .map(block => ("text" in block && typeof block.text === "string" ? block.text : ""))
+          .filter(Boolean)
+          .join(" ")
+          .trim()
+      : "";
 
     if (!reply) {
       return NextResponse.json(
-        { error: "Unable to generate a reply with the configured provider(s)." },
+        { error: "Unable to generate a reply with Anthropic." },
         { status: 500 }
       );
     }

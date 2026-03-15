@@ -4,14 +4,12 @@ A micro-SaaS web app that generates professional replies to Google reviews in se
 
 ## Getting Started
 
-1. Copy the example environment file and add your AI provider key (OpenAI or Claude):
+1. Copy the example environment file and add your Anthropic key:
 
 ```bash
 cp .env.local.example .env.local
-# edit .env.local and set either:
-# OPENAI_API_KEY=sk-...
-# or
-# CLAUDE_API_KEY=sk-...
+# edit .env.local and set:
+# ANTHROPIC_API_KEY=sk-ant-...
 ```
 
 2. Install dependencies:
@@ -37,20 +35,36 @@ npm run dev
 
 ## Notes
 
-- Free users get **10 replies per month** (tracked in localStorage).
-- Set `OPENAI_MODEL` in `.env.local` to change the model (defaults to `gpt-3.5-turbo`).
+- Free users get **10 replies per month** (tracked in Clerk public metadata).
+- Set `CLAUDE_MODEL` in `.env.local` to change the model (defaults to `claude-haiku-4-5-20251001`).
 
 ## Deployment
 
-Deploy on Vercel by connecting this repository and setting the required environment variable in the Vercel dashboard:
+Deploy on Vercel by connecting this repository and setting these environment variables in the Vercel dashboard:
 
-- `OPENAI_API_KEY` (or `CLAUDE_API_KEY`)
+- Required to generate replies:
+	- `ANTHROPIC_API_KEY`
+	- `CLERK_SECRET_KEY`
+	- `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`
+- Required for Paddle checkout:
+	- `NEXT_PUBLIC_PADDLE_CLIENT_TOKEN`
+	- `NEXT_PUBLIC_PADDLE_PRICE_ID`
+	- `NEXT_PUBLIC_PADDLE_ENV`
+- Optional (only if using backend Paddle transaction route):
+	- `PADDLE_API_KEY`
+	- `PADDLE_PRICE_ID`
+	- `NEXT_PUBLIC_APP_URL`
+- Optional app config:
+	- `ADMIN_EMAILS`
+	- `NEXT_PUBLIC_ADMIN_EMAILS`
+	- `NEXT_PUBLIC_BUILT_BY_NAME`
+	- `CLAUDE_MODEL`
 
 This project includes a `vercel.json` config for build settings.
 
 ---
 
-Built with Next.js, Tailwind CSS, and the OpenAI API.
+Built with Next.js, Tailwind CSS, and Anthropic Claude.
 
 ## Paddle Checkout Setup ($9/month)
 
