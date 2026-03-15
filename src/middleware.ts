@@ -7,13 +7,20 @@ import {
 } from "@/lib/plan";
 
 const isReplyRoute = createRouteMatcher(["/api/reply(.*)"]);
+const isAppRoute = createRouteMatcher(["/app(.*)"]);
 
 export default clerkMiddleware(async (auth, req) => {
+  const { userId } = await auth();
+
+  if (isAppRoute(req) && !userId) {
+    const signInUrl = new URL("/sign-in", req.url);
+    signInUrl.searchParams.set("redirect_url", req.url);
+    return NextResponse.redirect(signInUrl);
+  }
+
   if (!isReplyRoute(req)) {
     return NextResponse.next();
   }
-
-  const { userId } = await auth();
 
   if (!userId) {
     return NextResponse.json({ error: "Please sign in to generate replies." }, { status: 401 });
@@ -44,5 +51,5 @@ export default clerkMiddleware(async (auth, req) => {
 });
 
 export const config = {
-  matcher: ["/api/reply(.*)"],
+  matcher: ["/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)", "/(api|trpc)(.*)"],
 };

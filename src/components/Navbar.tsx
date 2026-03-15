@@ -6,8 +6,6 @@ import { useState } from "react";
 import {
   useAuth,
   useUser,
-  SignInButton,
-  SignUpButton,
   UserButton,
 } from "@clerk/nextjs";
 import { isAdminEmail, parseAdminEmails } from "@/lib/admin";
@@ -57,22 +55,18 @@ export function Navbar() {
         <div className="hidden items-center gap-3 md:flex">
           {!isSignedIn ? (
             <>
-            <SignInButton mode="modal">
-              <button
-                type="button"
+              <Link
+                href="/sign-in"
                 className="rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-semibold text-white transition hover:bg-white/15"
               >
                 Login
-              </button>
-            </SignInButton>
-            <SignUpButton mode="modal">
-              <button
-                type="button"
+              </Link>
+              <Link
+                href="/sign-up"
                 className="rounded-full bg-gradient-to-r from-indigo-500 via-fuchsia-500 to-sky-500 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-indigo-500/20 transition hover:opacity-90"
               >
                 Start Free
-              </button>
-            </SignUpButton>
+              </Link>
             </>
           ) : (
             <>
@@ -128,24 +122,20 @@ export function Navbar() {
             ))}
             {!isSignedIn ? (
               <>
-              <SignInButton mode="modal">
-                <button
-                  type="button"
+                <Link
+                  href="/sign-in"
                   onClick={() => setOpen(false)}
                   className="rounded-lg border border-white/20 bg-white/10 px-3 py-2 text-left text-sm font-semibold text-white transition hover:bg-white/15"
                 >
                   Login
-                </button>
-              </SignInButton>
-              <SignUpButton mode="modal">
-                <button
-                  type="button"
+                </Link>
+                <Link
+                  href="/sign-up"
                   onClick={() => setOpen(false)}
                   className="rounded-lg bg-white/10 px-3 py-2 text-left text-sm font-semibold text-white transition hover:bg-white/15"
                 >
                   Start Free
-                </button>
-              </SignUpButton>
+                </Link>
               </>
             ) : (
               <div className="px-1 py-2">
