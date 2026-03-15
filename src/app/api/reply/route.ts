@@ -74,6 +74,17 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Missing required fields." }, { status: 400 });
     }
 
+    if (body.review.trim().length === 0) {
+      return NextResponse.json({ error: "Review cannot be empty." }, { status: 400 });
+    }
+
+    if (body.review.length > 1000) {
+      return NextResponse.json(
+        { error: "Review must be 1000 characters or fewer." },
+        { status: 400 }
+      );
+    }
+
     const prompt = buildPrompt(body);
     let reply = "";
 

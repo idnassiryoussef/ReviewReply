@@ -180,8 +180,14 @@ export function ReviewForm() {
                 onChange={(event) => setReviewText(event.target.value)}
                 placeholder="The service was slow but the food was good."
                 rows={6}
+                maxLength={1000}
                 className="mt-2 w-full resize-none rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white shadow-sm outline-none transition-all duration-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/30"
               />
+              <div className="mt-1 flex justify-end">
+                <span className={`text-xs tabular-nums ${reviewText.length >= 950 ? "text-rose-400" : "text-white/40"}`}>
+                  {reviewText.length}/1000
+                </span>
+              </div>
               <div className="mt-4 flex flex-wrap gap-2">
                 <span className="text-xs text-white/60">Try a sample review:</span>
                 {sampleReviews.map((sample) => (

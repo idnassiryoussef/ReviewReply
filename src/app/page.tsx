@@ -9,6 +9,7 @@ import { DemoGenerator } from "@/components/DemoGenerator";
 import { SocialProof } from "@/components/SocialProof";
 import { TestimonialsSection } from "@/components/TestimonialsSection";
 import { WhySection } from "@/components/WhySection";
+import { FloatingChat } from "@/components/FloatingChat";
 
 export const metadata = {
   title: "Google Review Reply Generator",
@@ -32,6 +33,7 @@ export default function Home() {
         <FAQSection />
       </main>
       <Footer />
+      <FloatingChat />
     </div>
   );
 }
