@@ -70,9 +70,7 @@ export function PaddleCheckoutButton({ className, children }: PaddleCheckoutButt
     try {
       const token = process.env.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN;
       const priceId = process.env.NEXT_PUBLIC_PADDLE_PRICE_ID;
-      const environment = process.env.NEXT_PUBLIC_PADDLE_ENV === "production"
-        ? "production"
-        : "sandbox";
+      const environment = "production";
 
       if (!token || !priceId) {
         throw new Error("Paddle is not configured. Missing NEXT_PUBLIC_PADDLE_CLIENT_TOKEN or NEXT_PUBLIC_PADDLE_PRICE_ID.");
