@@ -96,15 +96,6 @@ export default function SignUpCatchAllPage() {
             signInUrl="/sign-in"
             fallbackRedirectUrl="/"
             forceRedirectUrl="/"
-            localization={{
-              signUp: {
-                start: {
-                  title: "Create your account",
-                  subtitle:
-                    "Sign up to continue generating AI replies to customer reviews.",
-                },
-              },
-            }}
             appearance={{
               baseTheme: dark,
               variables: {
