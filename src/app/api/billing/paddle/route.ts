@@ -1,5 +1,26 @@
 import { NextResponse } from "next/server";
 
+export async function GET() {
+  const token = process.env.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN;
+  const priceId = process.env.NEXT_PUBLIC_PADDLE_PRICE_ID;
+
+  if (!token || !priceId) {
+    return NextResponse.json(
+      {
+        error:
+          "Missing NEXT_PUBLIC_PADDLE_CLIENT_TOKEN or NEXT_PUBLIC_PADDLE_PRICE_ID.",
+      },
+      { status: 500 }
+    );
+  }
+
+  return NextResponse.json({
+    token,
+    priceId,
+    environment: "production",
+  });
+}
+
 export async function POST() {
   const apiKey = process.env.PADDLE_API_KEY;
   const priceId = process.env.PADDLE_PRICE_ID;

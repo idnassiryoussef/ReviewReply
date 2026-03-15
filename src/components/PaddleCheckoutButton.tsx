@@ -59,6 +59,29 @@ type PaddleCheckoutButtonProps = {
   children: React.ReactNode;
 };
 
+type PaddleCheckoutConfig = {
+  token: string;
+  priceId: string;
+  environment: "sandbox" | "production";
+};
+
+async function getPaddleCheckoutConfig(): Promise<PaddleCheckoutConfig> {
+  const response = await fetch("/api/billing/paddle", {
+    method: "GET",
+    cache: "no-store",
+  });
+
+  if (!response.ok) {
+    const data = (await response.json()) as { error?: string };
+    throw new Error(
+      data.error ||
+        "Paddle is not configured. Missing NEXT_PUBLIC_PADDLE_CLIENT_TOKEN or NEXT_PUBLIC_PADDLE_PRICE_ID."
+    );
+  }
+
+  return (await response.json()) as PaddleCheckoutConfig;
+}
+
 export function PaddleCheckoutButton({ className, children }: PaddleCheckoutButtonProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -68,13 +91,7 @@ export function PaddleCheckoutButton({ className, children }: PaddleCheckoutButt
     setLoading(true);
 
     try {
-      const token = process.env.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN;
-      const priceId = process.env.NEXT_PUBLIC_PADDLE_PRICE_ID;
-      const environment = "production";
-
-      if (!token || !priceId) {
-        throw new Error("Paddle is not configured. Missing NEXT_PUBLIC_PADDLE_CLIENT_TOKEN or NEXT_PUBLIC_PADDLE_PRICE_ID.");
-      }
+      const { token, priceId, environment } = await getPaddleCheckoutConfig();
 
       await loadPaddleScript();
 
