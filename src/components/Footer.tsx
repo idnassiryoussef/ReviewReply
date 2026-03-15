@@ -24,17 +24,17 @@ export function Footer() {
             <p className="text-sm font-semibold text-white/90">Product</p>
             <ul className="mt-4 space-y-2 text-sm text-white/60">
               <li>
-                <Link href="/app" className="hover:text-white">
+                <Link href="/app" className="transition-all duration-200 hover:text-purple-300">
                   Try it
                 </Link>
               </li>
               <li>
-                <Link href="/pricing" className="hover:text-white">
+                <Link href="/pricing" className="transition-all duration-200 hover:text-purple-300">
                   Pricing
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="hover:text-white">
+                <Link href="/contact" className="transition-all duration-200 hover:text-purple-300">
                   Contact
                 </Link>
               </li>
@@ -45,17 +45,17 @@ export function Footer() {
             <p className="text-sm font-semibold text-white/90">Company</p>
             <ul className="mt-4 space-y-2 text-sm text-white/60">
               <li>
-                <Link href="/" className="hover:text-white">
+                <Link href="/" className="transition-all duration-200 hover:text-purple-300">
                   Home
                 </Link>
               </li>
               <li>
-                <Link href="/pricing" className="hover:text-white">
+                <Link href="/pricing" className="transition-all duration-200 hover:text-purple-300">
                   Pricing
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="hover:text-white">
+                <Link href="/contact" className="transition-all duration-200 hover:text-purple-300">
                   Contact
                 </Link>
               </li>
@@ -66,12 +66,12 @@ export function Footer() {
             <p className="text-sm font-semibold text-white/90">Legal</p>
             <ul className="mt-4 space-y-2 text-sm text-white/60">
               <li>
-                <Link href="/privacy" className="hover:text-white">
+                <Link href="/privacy" className="transition-all duration-200 hover:text-purple-300">
                   Privacy Policy
                 </Link>
               </li>
               <li>
-                <Link href="/terms" className="hover:text-white">
+                <Link href="/terms" className="transition-all duration-200 hover:text-purple-300">
                   Terms of Service
                 </Link>
               </li>

@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { motion } from "framer-motion";
 import { PaddleCheckoutButton } from "./PaddleCheckoutButton";
 
 const plans = [
@@ -36,7 +39,13 @@ const plans = [
 
 export function PricingSection() {
   return (
-    <section className="section-fade-in bg-[var(--background)] py-20 sm:py-24">
+    <motion.section
+      className="bg-[var(--background)] py-20 sm:py-24"
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.45 }}
+    >
       <div className="mx-auto max-w-6xl px-4 md:px-6">
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="text-sm font-semibold uppercase tracking-[0.12em] text-indigo-300">
@@ -55,11 +64,13 @@ export function PricingSection() {
 
         <div className="mt-12 grid gap-6 md:grid-cols-2">
           {plans.map((plan) => (
-            <div
+            <motion.div
               key={plan.name}
-              className={`glass surface-hover rounded-3xl p-8 shadow-lg ${
+              className={`glass surface-hover rounded-3xl p-8 shadow-lg transition-all duration-200 hover:scale-105 hover:shadow-xl ${
                 plan.featured ? "ring-2 ring-indigo-400/45 md:scale-[1.03]" : ""
               }`}
+              whileHover={{ y: -6, scale: plan.featured ? 1.035 : 1.02 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
             >
               <div className="flex items-baseline justify-between gap-4">
                 <div>
@@ -67,7 +78,7 @@ export function PricingSection() {
                   <p className="mt-2 text-sm text-white/70">{plan.description}</p>
                 </div>
                 {plan.featured ? (
-                  <span className="rounded-full bg-blue-500/20 px-3 py-1 text-xs font-semibold text-blue-100">
+                  <span className="rounded-full border border-fuchsia-300/30 bg-fuchsia-500/20 px-3 py-1 text-xs font-semibold text-fuchsia-100">
                     Most popular
                   </span>
                 ) : null}
@@ -93,22 +104,22 @@ export function PricingSection() {
 
               {plan.featured ? (
                 <PaddleCheckoutButton
-                  className="cta-primary mt-8 inline-flex w-full items-center justify-center rounded-full bg-gradient-to-r from-indigo-500 via-fuchsia-500 to-sky-500 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/20 disabled:cursor-not-allowed disabled:opacity-70"
+                  className="cta-primary mt-8 inline-flex w-full items-center justify-center rounded-full bg-gradient-to-r from-indigo-500 via-fuchsia-500 to-sky-500 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/20 transition-all duration-200 hover:scale-105 hover:shadow-xl hover:shadow-purple-500/40 disabled:cursor-not-allowed disabled:opacity-70"
                 >
                   {plan.ctaLabel}
                 </PaddleCheckoutButton>
               ) : (
                 <Link
                   href={plan.href}
-                  className="cta-secondary mt-8 inline-flex w-full items-center justify-center rounded-full border border-white/20 bg-white/10 px-6 py-3 text-sm font-semibold text-white hover:bg-white/15"
+                  className="cta-secondary mt-8 inline-flex w-full items-center justify-center rounded-full border border-white/20 bg-white/10 px-6 py-3 text-sm font-semibold text-white transition-all duration-200 hover:scale-105 hover:bg-white/15 hover:shadow-xl"
                 >
                   {plan.ctaLabel}
                 </Link>
               )}
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 }

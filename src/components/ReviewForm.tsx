@@ -144,7 +144,7 @@ export function ReviewForm() {
               <select
                 value={businessType}
                 onChange={(event) => setBusinessType(event.target.value)}
-                  className="mt-2 w-full rounded-2xl border border-white/10 bg-gray-800 px-4 py-3 text-sm text-white shadow-sm outline-none transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-400/30"
+                  className="mt-2 w-full rounded-2xl border border-white/10 bg-gray-800 px-4 py-3 text-sm text-white shadow-sm outline-none transition-all duration-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/30"
               >
                 <option>Restaurant</option>
                 <option>Hotel</option>
@@ -163,7 +163,7 @@ export function ReviewForm() {
               <select
                 value={tone}
                 onChange={(event) => setTone(event.target.value)}
-                  className="mt-2 w-full rounded-2xl border border-white/10 bg-gray-800 px-4 py-3 text-sm text-white shadow-sm outline-none transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-400/30"
+                  className="mt-2 w-full rounded-2xl border border-white/10 bg-gray-800 px-4 py-3 text-sm text-white shadow-sm outline-none transition-all duration-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/30"
               >
                 <option>Professional</option>
                 <option>Friendly</option>
@@ -178,9 +178,9 @@ export function ReviewForm() {
               <textarea
                 value={reviewText}
                 onChange={(event) => setReviewText(event.target.value)}
-                placeholder="Paste the customer review here..."
+                placeholder="The service was slow but the food was good."
                 rows={6}
-                className="mt-2 w-full resize-none rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white shadow-sm outline-none transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-400/30"
+                className="mt-2 w-full resize-none rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white shadow-sm outline-none transition-all duration-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/30"
               />
               <div className="mt-4 flex flex-wrap gap-2">
                 <span className="text-xs text-white/60">Try a sample review:</span>
@@ -189,7 +189,7 @@ export function ReviewForm() {
                     key={sample}
                     type="button"
                     onClick={() => setReviewText(sample)}
-                    className="rounded-full border border-white/20 bg-white/5 px-3 py-1 text-xs font-medium text-white transition hover:bg-white/10"
+                    className="rounded-full border border-white/20 bg-white/5 px-3 py-1 text-xs font-medium text-white transition-all duration-200 hover:scale-105 hover:bg-white/10"
                   >
                     {sample.length > 36 ? `${sample.slice(0, 36)}…` : sample}
                   </button>
@@ -203,7 +203,7 @@ export function ReviewForm() {
                 value={extraInstructions}
                 onChange={(event) => setExtraInstructions(event.target.value)}
                 placeholder="Any special note? e.g. mention refund, invite customer back..."
-                className="mt-2 w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white shadow-sm outline-none transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-400/30"
+                className="mt-2 w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white shadow-sm outline-none transition-all duration-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/30"
               />
             </label>
 
@@ -212,7 +212,7 @@ export function ReviewForm() {
                 type="button"
                 onClick={() => generateReply()}
                 disabled={loading || !reviewText.trim() || limitReached}
-                className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-indigo-500 via-fuchsia-500 to-sky-500 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/20 transition disabled:cursor-not-allowed disabled:opacity-60"
+                className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-indigo-500 via-fuchsia-500 to-sky-500 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/20 transition-all duration-200 hover:scale-105 hover:shadow-xl hover:shadow-purple-500/40 disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {loading ? "Generating…" : "Generate Reply"}
               </button>

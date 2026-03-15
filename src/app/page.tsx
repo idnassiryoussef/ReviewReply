@@ -7,6 +7,7 @@ import { Navbar } from "@/components/Navbar";
 import { PricingSection } from "@/components/PricingSection";
 import { DemoGenerator } from "@/components/DemoGenerator";
 import { SocialProof } from "@/components/SocialProof";
+import { TestimonialsSection } from "@/components/TestimonialsSection";
 import { WhySection } from "@/components/WhySection";
 
 export const metadata = {
@@ -27,6 +28,7 @@ export default function Home() {
         <FeaturesGrid />
         <DemoGenerator />
         <PricingSection />
+        <TestimonialsSection />
         <FAQSection />
       </main>
       <Footer />

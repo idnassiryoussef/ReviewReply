@@ -56,7 +56,7 @@ export function ContactForm() {
           required
           value={name}
           onChange={(event) => setName(event.target.value)}
-          className="mt-2 w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white shadow-sm outline-none transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-400/30"
+          className="mt-2 w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white shadow-sm outline-none transition-all duration-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/35"
         />
       </div>
 
@@ -72,7 +72,7 @@ export function ContactForm() {
           required
           value={email}
           onChange={(event) => setEmail(event.target.value)}
-          className="mt-2 w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white shadow-sm outline-none transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-400/30"
+          className="mt-2 w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white shadow-sm outline-none transition-all duration-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/35"
         />
       </div>
 
@@ -88,16 +88,23 @@ export function ContactForm() {
           required
           value={message}
           onChange={(event) => setMessage(event.target.value)}
-          className="mt-2 w-full resize-none rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white shadow-sm outline-none transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-400/30"
+          className="mt-2 w-full resize-none rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white shadow-sm outline-none transition-all duration-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/35"
         />
       </div>
 
       <button
         type="submit"
         disabled={loading}
-        className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-indigo-500 via-fuchsia-500 to-sky-500 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/20 transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-70"
+        className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-indigo-500 via-fuchsia-500 to-sky-500 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/20 transition-all duration-200 hover:scale-105 hover:shadow-xl hover:shadow-purple-500/40 disabled:cursor-not-allowed disabled:opacity-70"
       >
-        {loading ? "Sending..." : "Send message"}
+        {loading ? (
+          <>
+            <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/35 border-t-white" />
+            Sending...
+          </>
+        ) : (
+          "Send message"
+        )}
       </button>
 
       {successMessage ? <p className="text-sm text-emerald-300">{successMessage}</p> : null}

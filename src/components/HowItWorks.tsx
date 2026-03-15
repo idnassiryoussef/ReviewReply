@@ -1,21 +1,26 @@
+"use client";
+
+import { motion } from "framer-motion";
+import { ChatBubbleBottomCenterTextIcon, SparklesIcon, ClipboardDocumentCheckIcon } from "@heroicons/react/24/outline";
+
 const steps = [
   {
-    title: "Paste a customer review",
-    description:
-      "Copy the review text from Google and paste it into the app so we can draft a reply.",
-    hint: "Input",
+    title: "Paste your Google review",
+    description: "Copy any review from Google and drop it into ReviewReply.",
+    hint: "Step 1",
+    Icon: ChatBubbleBottomCenterTextIcon,
   },
   {
-    title: "Choose tone and business type",
-    description:
-      "Select the right response style and company type so the reply matches your brand.",
-    hint: "Configuration",
+    title: "AI generates a professional reply",
+    description: "Select tone once and get a polished response tailored to your business.",
+    hint: "Step 2",
+    Icon: SparklesIcon,
   },
   {
-    title: "Generate a professional reply instantly",
-    description:
-      "Get a polished response that you can post directly to Google Reviews.",
-    hint: "Output",
+    title: "Copy and post to Google",
+    description: "One click to copy, then publish your response in seconds.",
+    hint: "Step 3",
+    Icon: ClipboardDocumentCheckIcon,
   },
 ];
 
@@ -37,29 +42,33 @@ export function HowItWorks() {
 
         <div className="mt-12 grid gap-6 md:grid-cols-3">
           {steps.map((step, index) => (
-            <div
+            <motion.div
               key={step.title}
-              className="glass surface-hover relative rounded-3xl p-7 shadow-lg"
+              className="relative rounded-3xl bg-gradient-to-br from-indigo-400/25 via-fuchsia-400/15 to-sky-400/20 p-[1px]"
+              whileHover={{ y: -6, scale: 1.02 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
             >
-              <span className="inline-flex rounded-full border border-indigo-300/30 bg-indigo-500/15 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-indigo-100">
-                {step.hint}
-              </span>
-
-              <div className="mt-6 flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500/70 to-sky-500/70 text-sm font-semibold text-white shadow-lg shadow-indigo-900/30">
-                {index + 1}
-              </div>
-
-              <h3 className="mt-5 text-xl font-semibold text-white">{step.title}</h3>
-              <p className="mt-3 text-sm leading-relaxed text-white/70">
-                {step.description}
-              </p>
-
-              {index < steps.length - 1 ? (
-                <span className="pointer-events-none absolute -right-3 top-1/2 hidden h-6 w-6 -translate-y-1/2 rounded-full border border-white/20 bg-[var(--background)] text-center text-white/40 md:block">
-                  +
+              <div className="glass surface-hover relative rounded-3xl p-7 shadow-lg shadow-indigo-900/20">
+                <span className="inline-flex rounded-full border border-indigo-300/30 bg-indigo-500/15 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-indigo-100">
+                  {step.hint}
                 </span>
-              ) : null}
-            </div>
+
+                <div className="mt-6 flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500/70 to-sky-500/70 text-sm font-semibold text-white shadow-lg shadow-indigo-900/30">
+                  <step.Icon className="h-5 w-5" aria-hidden="true" />
+                </div>
+
+                <h3 className="mt-5 text-xl font-semibold text-white">{step.title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-white/70">
+                  {step.description}
+                </p>
+
+                {index < steps.length - 1 ? (
+                  <span className="pointer-events-none absolute -right-3 top-1/2 hidden h-6 w-6 -translate-y-1/2 rounded-full border border-white/20 bg-[var(--background)] text-center text-white/40 md:block">
+                    +
+                  </span>
+                ) : null}
+              </div>
+            </motion.div>
           ))}
         </div>
       </div>

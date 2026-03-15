@@ -1,3 +1,5 @@
+"use client";
+
 import {
   ChatBubbleLeftRightIcon,
   ClipboardDocumentIcon,
@@ -6,6 +8,7 @@ import {
   SparklesIcon,
   SwatchIcon,
 } from "@heroicons/react/24/outline";
+import { motion } from "framer-motion";
 
 const features = [
   {
@@ -54,7 +57,13 @@ const features = [
 
 export function FeaturesGrid() {
   return (
-    <section className="section-fade-in bg-[var(--background)] py-20 sm:py-24">
+    <motion.section
+      className="bg-[var(--background)] py-20 sm:py-24"
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.45 }}
+    >
       <div className="mx-auto max-w-6xl px-4 md:px-6">
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="text-sm font-semibold uppercase tracking-[0.12em] text-indigo-300">
@@ -73,9 +82,11 @@ export function FeaturesGrid() {
             const Icon = feature.icon;
 
             return (
-              <div
+              <motion.div
                 key={feature.title}
                 className="glass surface-hover rounded-3xl p-7 shadow-lg"
+                whileHover={{ y: -6, scale: 1.02 }}
+                transition={{ type: "spring", stiffness: 260, damping: 20 }}
               >
                 <div className="flex items-center justify-between gap-4">
                   <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.04] text-indigo-200">
@@ -89,11 +100,11 @@ export function FeaturesGrid() {
                 <p className="mt-4 text-sm leading-relaxed text-white/70">
                   {feature.description}
                 </p>
-              </div>
+              </motion.div>
             );
           })}
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 }

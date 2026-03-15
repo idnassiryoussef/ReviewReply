@@ -54,25 +54,25 @@ export function ReplyCard({ reply, tone, loading, onCopy, onRegenerate, onClear 
           type="button"
           onClick={onCopy}
           disabled={!reply || loading}
-          className="inline-flex items-center gap-2 rounded-full bg-white/10 px-5 py-2 text-sm font-semibold text-white transition hover:bg-white/15 disabled:cursor-not-allowed disabled:opacity-50"
+          className="inline-flex items-center gap-2 rounded-full bg-white/10 px-5 py-2 text-sm font-semibold text-white transition-all duration-200 hover:scale-105 hover:bg-white/15 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-50"
         >
           <ClipboardDocumentCheckIcon className="h-4 w-4" />
-          Copy
+          Copy reply
         </button>
         <button
           type="button"
           onClick={onRegenerate}
           disabled={loading}
-          className="inline-flex items-center gap-2 rounded-full bg-white/10 px-5 py-2 text-sm font-semibold text-white transition hover:bg-white/15 disabled:cursor-not-allowed disabled:opacity-50"
+          className="inline-flex items-center gap-2 rounded-full bg-white/10 px-5 py-2 text-sm font-semibold text-white transition-all duration-200 hover:scale-105 hover:bg-white/15 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-50"
         >
           <ArrowPathIcon className="h-4 w-4" />
-          Regenerate
+          Regenerate reply
         </button>
         <button
           type="button"
           onClick={onClear}
           disabled={loading && !reply}
-          className="inline-flex items-center gap-2 rounded-full bg-white/10 px-5 py-2 text-sm font-semibold text-white transition hover:bg-white/15 disabled:cursor-not-allowed disabled:opacity-50"
+          className="inline-flex items-center gap-2 rounded-full bg-white/10 px-5 py-2 text-sm font-semibold text-white transition-all duration-200 hover:scale-105 hover:bg-white/15 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-50"
         >
           <TrashIcon className="h-4 w-4" />
           Clear

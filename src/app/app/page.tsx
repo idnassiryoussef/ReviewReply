@@ -16,10 +16,10 @@ export default function AppPage() {
         <div className="mx-auto max-w-6xl px-4 pt-10 md:px-6">
           <div className="mb-10">
             <h1 className="text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-              Generate Google Review Replies
+              Generate a reply
             </h1>
             <p className="mt-3 max-w-2xl text-base text-white/70">
-              Paste a customer review and generate a professional reply instantly.
+              Paste a Google review and generate a professional response in seconds.
             </p>
           </div>
           <ReviewForm />
