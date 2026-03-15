@@ -19,12 +19,19 @@ export default function ContactPage() {
             Have a question or want to share feedback? Send us a message and we’ll get back to you.
           </p>
 
-          <form className="mt-10 space-y-6 glass rounded-3xl p-8 shadow-lg">
+          <form
+            action="mailto:idnassir93@gmail.com"
+            method="post"
+            encType="text/plain"
+            className="mt-10 space-y-6 glass rounded-3xl p-8 shadow-lg"
+          >
             <div>
               <label className="text-sm font-semibold text-white/80">Name</label>
               <input
+                name="Name"
                 type="text"
                 placeholder="Your name"
+                required
                 className="mt-2 w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white shadow-sm outline-none transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-400/30"
               />
             </div>
@@ -32,8 +39,10 @@ export default function ContactPage() {
             <div>
               <label className="text-sm font-semibold text-white/80">Email</label>
               <input
+                name="Email"
                 type="email"
                 placeholder="you@example.com"
+                required
                 className="mt-2 w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white shadow-sm outline-none transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-400/30"
               />
             </div>
@@ -41,21 +50,23 @@ export default function ContactPage() {
             <div>
               <label className="text-sm font-semibold text-white/80">Message</label>
               <textarea
+                name="Message"
                 rows={6}
                 placeholder="How can we help?"
+                required
                 className="mt-2 w-full resize-none rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white shadow-sm outline-none transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-400/30"
               />
             </div>
 
             <button
-              type="button"
+              type="submit"
               className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-indigo-500 via-fuchsia-500 to-sky-500 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/20 transition hover:opacity-90"
             >
               Send message
             </button>
 
             <p className="text-sm text-white/60">
-              This form does not send messages yet — it is a UI demo only.
+              This opens your email app and sends to idnassir93@gmail.com.
             </p>
           </form>
         </div>
