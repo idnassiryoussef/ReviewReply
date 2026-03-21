@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   useAuth,
   useUser,
@@ -16,15 +16,40 @@ const navLinks = [
   { href: "/contact", label: "Contact" },
 ];
 
+type PlanInfo = { plan: string; usagePercent: number };
+
+const PLAN_LABEL: Record<string, string> = {
+  free: "FREE",
+  starter: "STARTER",
+  growth: "GROWTH",
+  agency: "AGENCY",
+};
+
 export function Navbar() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const { isSignedIn } = useAuth();
   const { user } = useUser();
+  const [planInfo, setPlanInfo] = useState<PlanInfo | null>(null);
+
+  const signedInLinks = [
+    { href: "/app", label: "Generator" },
+    { href: "/dashboard/inbox", label: "Inbox" },
+    { href: "/dashboard/auto-reply", label: "Auto-Reply" },
+    { href: "/dashboard/analytics", label: "Analytics" },
+  ];
 
   const adminEmails = parseAdminEmails(process.env.NEXT_PUBLIC_ADMIN_EMAILS);
   const userEmail = user?.primaryEmailAddress?.emailAddress;
   const isAdmin = isAdminEmail(userEmail, adminEmails);
+
+  useEffect(() => {
+    if (!isSignedIn) return;
+    fetch("/api/plan-info")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d: PlanInfo | null) => { if (d) setPlanInfo(d); })
+      .catch(() => null);
+  }, [isSignedIn]);
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-slate-950/70 backdrop-blur">
@@ -50,6 +75,19 @@ export function Navbar() {
               {link.label}
             </Link>
           ))}
+          {isSignedIn
+            ? signedInLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`px-2 py-1 transition-all duration-200 hover:text-purple-400 ${
+                    pathname === link.href ? "text-white" : "text-white/80"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              ))
+            : null}
         </nav>
 
         <div className="hidden items-center gap-3 md:flex">
@@ -69,14 +107,28 @@ export function Navbar() {
               </Link>
             </>
           ) : (
-            <>
+            <div className="flex items-center gap-2">
               {isAdmin ? (
                 <span className="rounded-full border border-emerald-400/40 bg-emerald-500/15 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-emerald-200">
                   Admin
                 </span>
               ) : null}
+              {planInfo ? (
+                planInfo.plan === "free" ? (
+                  <Link
+                    href="/pricing"
+                    className="rounded-full bg-gradient-to-r from-indigo-500 via-fuchsia-500 to-sky-500 px-3 py-1 text-xs font-bold text-white shadow hover:scale-105 transition"
+                  >
+                    Upgrade
+                  </Link>
+                ) : (
+                  <span className="rounded-full border border-emerald-400/40 bg-emerald-500/15 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-emerald-200">
+                    {PLAN_LABEL[planInfo.plan] ?? planInfo.plan}
+                  </span>
+                )
+              ) : null}
               <UserButton />
-            </>
+            </div>
           )}
         </div>
 
@@ -120,6 +172,20 @@ export function Navbar() {
                 {link.label}
               </Link>
             ))}
+            {isSignedIn
+              ? signedInLinks.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setOpen(false)}
+                    className={`rounded-lg px-3 py-2 text-sm font-medium transition hover:bg-white/10 ${
+                      pathname === link.href ? "bg-white/10" : ""
+                    }`}
+                  >
+                    {link.label}
+                  </Link>
+                ))
+              : null}
             {!isSignedIn ? (
               <>
                 <Link
@@ -142,6 +208,19 @@ export function Navbar() {
                 {isAdmin ? (
                   <span className="mb-2 inline-flex rounded-full border border-emerald-400/40 bg-emerald-500/15 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-emerald-200">
                     Admin
+                  </span>
+                ) : null}
+                {planInfo?.plan === "free" ? (
+                  <Link
+                    href="/pricing"
+                    onClick={() => setOpen(false)}
+                    className="mb-2 inline-flex rounded-full bg-gradient-to-r from-indigo-500 via-fuchsia-500 to-sky-500 px-3 py-1 text-xs font-bold text-white"
+                  >
+                    Upgrade
+                  </Link>
+                ) : planInfo ? (
+                  <span className="mb-2 inline-flex rounded-full border border-emerald-400/40 bg-emerald-500/15 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-emerald-200">
+                    {PLAN_LABEL[planInfo.plan] ?? planInfo.plan}
                   </span>
                 ) : null}
                 <UserButton />

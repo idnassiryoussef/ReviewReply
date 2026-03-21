@@ -1,0 +1,18 @@
+{
+    "isEnabled":  false,
+    "replyOnStars":  [
+                         5
+                     ],
+    "dryRunMode":  true,
+    "quietHoursStart":  "22:00",
+    "quietHoursEnd":  "08:00",
+    "settings":  {
+                     "isEnabled":  false,
+                     "replyOnStars":  [
+                                          5
+                                      ],
+                     "dryRunMode":  true,
+                     "quietHoursStart":  "22:00",
+                     "quietHoursEnd":  "08:00"
+                 }
+}

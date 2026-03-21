@@ -1,0 +1,169 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum ReviewClassification {
+  positive
+  neutral
+  negative
+  danger
+}
+
+enum ReviewState {
+  NEW
+  NEEDS_ATTENTION
+  DRAFT_READY
+  APPROVED
+  SENT
+  RESOLVED
+}
+
+enum ReplyStatus {
+  SUGGESTED
+  APPROVED
+  SENT
+  FAILED
+}
+
+enum JobStatus {
+  PENDING
+  RUNNING
+  SUCCESS
+  FAILED
+  SKIPPED
+}
+
+model Review {
+  id             String               @id @default(cuid())
+  businessId     String
+  externalId     String?
+  source         String               @default("google")
+  authorName     String?
+  rating         Int
+  reviewText     String
+  classification ReviewClassification @default(neutral)
+  state          ReviewState          @default(NEW)
+  needsAttention Boolean              @default(false)
+  receivedAt     DateTime             @default(now())
+  createdAt      DateTime             @default(now())
+  updatedAt      DateTime             @updatedAt
+  replies        Reply[]
+  jobs           JobLog[]
+
+  @@index([businessId, createdAt])
+  @@index([businessId, classification, createdAt])
+  @@unique([businessId, externalId])
+}
+
+model Reply {
+  id                       String     @id @default(cuid())
+  reviewId                 String
+  businessId               String
+  tone                     String     @default("professional")
+  publicReply              String
+  privateResolutionMessage String
+  status                   ReplyStatus @default(SUGGESTED)
+  approvedAt               DateTime?
+  sentAt                   DateTime?
+  createdAt                DateTime   @default(now())
+  updatedAt                DateTime   @updatedAt
+  review                   Review     @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+  jobs                     JobLog[]
+
+  @@index([businessId, createdAt])
+  @@index([reviewId, createdAt])
+}
+
+model AutomationSettings {
+  id                 String   @id @default(cuid())
+  businessId         String   @unique
+  isEnabled          Boolean  @default(false)
+  autoReplyStarRatings Int[]  @default([4, 5])
+  delayMinutes       Int      @default(5)
+  dailyReplyLimit    Int      @default(10)
+  dryRunMode         Boolean  @default(true)
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  @@index([businessId])
+}
+
+model JobLog {
+  id          String    @id @default(cuid())
+  businessId  String
+  reviewId    String
+  replyId     String?
+  status      JobStatus @default(PENDING)
+  errorMessage String?
+  skipReason  String?
+  runAt       DateTime?
+  startedAt   DateTime?
+  finishedAt  DateTime?
+  createdAt   DateTime  @default(now())
+  review      Review    @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+  reply       Reply?    @relation(fields: [replyId], references: [id], onDelete: SetNull)
+
+  @@index([businessId, createdAt])
+  @@index([businessId, status, createdAt])
+  @@index([reviewId, createdAt])
+}
+
+model AutoReplySettings {
+  id                 String   @id @default(cuid())
+  businessId         String   @unique
+  isEnabled          Boolean  @default(false)
+  replyOnStars       Int[]    @default([5])
+  dryRunMode         Boolean  @default(true)
+  quietHoursStart    String   @default("22:00")
+  quietHoursEnd      String   @default("08:00")
+  tonePerStar        Json     @default("{\"1\":\"apologetic\",\"2\":\"apologetic\",\"3\":\"neutral\",\"4\":\"grateful\",\"5\":\"enthusiastic\"}")
+  customInstructions String?
+  timezone           String   @default("UTC")
+  maxRepliesPerDay   Int      @default(50)
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  @@index([businessId])
+}
+
+model AutoReplyJob {
+  id               String    @id @default(cuid())
+  businessId       String
+  reviewId         String
+  status           String    @default("PENDING")
+  generatedReply   String?
+  publishedAt      DateTime?
+  skipReason       String?
+  errorMessage     String?
+  retryCount       Int       @default(0)
+  reviewStars      Int?
+  reviewText       String?
+  reviewSnippet    String?
+  detectedLanguage String?   @default("en")
+  createdAt        DateTime  @default(now())
+
+  @@index([businessId, createdAt])
+  @@index([businessId, reviewId, createdAt])
+}
+
+model Subscription {
+  id                   String    @id @default(cuid())
+  businessId           String    @unique
+  paddleCustomerId     String?
+  paddlePriceId        String?
+  paddleSubscriptionId String?
+  plan                 String    @default("free")
+  status               String    @default("active")
+  currentPeriodEnd     DateTime?
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+}

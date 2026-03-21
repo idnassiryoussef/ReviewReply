@@ -5,7 +5,7 @@ import { PricingSection } from "@/components/PricingSection";
 export const metadata = {
   title: "Pricing - ReviewReply",
   description:
-    "Choose a plan that fits your business. Get free replies each month or upgrade for unlimited usage.",
+    "Choose a plan that fits your business. Start free or upgrade for unlimited auto-replies and analytics.",
 };
 
 export default function PricingPage() {
